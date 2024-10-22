@@ -2,17 +2,31 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = '/opt/java/openjdk'
-        repository = "meteoriver/paran"  //docker hub id와 repository 이름
-        DOCKERHUB_CREDENTIALS = credentials('paran-docker') // jenkins에 등록해 놓은 docker hub credentials 이름
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        repository = "meteoriver/paran"
+        DOCKERHUB_CREDENTIALS = credentials('paran-docker') // Docker Hub credentials
         dockerImage = ''
     }
 
     stages {
 
+        stage('Checkout SCM') {
+            steps {
+                script {
+                    // Git 리포지토리와 서브모듈을 체크아웃
+                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], // Ensure this is the correct branch
+                      userRemoteConfigs: [[url: 'https://github.com/MeteoRiver/paran_msa.git', credentialsId: 'paran-git']],
+                      doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']]])
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
+                    // gradlew에 실행 권한 부여
+                    sh 'chmod +x ./gradlew'
+
                     sh '''#!/bin/bash
                     set -e
                     export JAVA_HOME="$JAVA_HOME"
@@ -27,7 +41,7 @@ pipeline {
                     for module in "${all_modules[@]}"
                     do
                       echo "Building BootJar for $module"
-                      ./gradlew :$module:bootJar
+                      ./gradlew :$module:bootJar || exit 1  # 빌드 실패 시 중지
                     done
                     '''
                 }
@@ -44,39 +58,37 @@ pipeline {
                 }
             }
         }
-        stage('Login'){
-            steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' // docker hub 로그인
+
+        stage('Login to Docker Hub') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'  // Docker Hub 로그인
             }
         }
+
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    /*withDockerRegistry([url:'https://registry.hub.docker.com', credentialsId:'paran-docker']) {
-                        sh "docker push meteoriver/paran:config-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:eureka-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:user-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:group-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:chat-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:file-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:room-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:comment-${env.BUILD_ID}"
-                        sh "docker push meteoriver/paran:gateway-${env.BUILD_ID}" */
+                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
 
-                         def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
-
-                        for (module in modules) {
-                            def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"  // 저장소에 푸시할 이미지 태그
-                            echo "Tagging and pushing ${imageTag}"  // 디버그 메시지 추가
-                            sh "docker push ${imageTag}"  // 이미지를 Docker Hub에 푸시
-                        }
-                    //}
+                    for (module in modules) {
+                        def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"  // 이미지 태그 정의
+                        echo "Tagging and pushing ${imageTag}"  // 디버그 메시지
+                        sh "docker tag ${repository}:${BUILD_NUMBER} ${imageTag}"  // 이미지 태그
+                        sh "docker push ${imageTag}"  // Docker Hub에 푸시
+                    }
                 }
             }
         }
-        stage('Cleaning up') {
+
+        stage('Clean Docker Images') {
             steps {
-                sh "docker rmi $repository:$BUILD_NUMBER" // docker image 제거
+                script {
+                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+                    for (module in modules) {
+                        def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"  // 이미지 태그 정의
+                        sh "docker rmi ${imageTag}"  // Docker 이미지 제거
+                    }
+                }
             }
         }
 
@@ -84,9 +96,9 @@ pipeline {
             steps {
                 script {
                     def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
-
                     for (module in modules) {
-                        sh "kubectl set image deployment/${module} ${module}=meteoriver/paran:${module}-${env.BUILD_ID}"  // paran 저장소에서 이미지 배포
+                        def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"  // 이미지 태그 정의
+                        sh "kubectl set image deployment/${module} ${module}=${imageTag}"  // Kubernetes에 이미지 배포
                     }
                 }
             }
