@@ -1,0 +1,26 @@
+server:
+  port: 8090
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://223.130.128.187:8761/eureka/
+
+cloud:
+  s3:
+    bucket: com.paranmanzang.api
+    access-key: AKIAVY2PGTZZUUFDTVWO
+    access-secret-key: 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
+
+spring:
+  application:
+    name: file-service
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info
+  data:
+    mongodb:
+      uri: mongodb://root:1234@223.130.128.187:27017/parandb?authSource=admin

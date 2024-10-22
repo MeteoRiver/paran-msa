@@ -1,0 +1,55 @@
+server:
+  port: 8082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://223.130.156.167:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: 223.130.156.167
+
+spring:
+  application:
+    name: user-service
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info
+
+  datasource:
+    url: jdbc:mysql://223.130.128.187:3306/parandb
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: DEBUG
+          orm.jdbc.bind: TRACE
+        spring:
+          cloud:
+            gateway: DEBUG
+          data:
+            mongodb:
+              core:
+                MongoTemplate: DEBUG
+          security: DEBUG
+          web: DEBUG
+
+#yaml 테스트

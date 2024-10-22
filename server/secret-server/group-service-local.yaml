@@ -1,0 +1,31 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: group-service
+
+    jpa:
+      hibernate:
+        ddl-auto: update                         # Hibernate DDL 자동 업데이트 설정
+      show-sql: true                             # SQL 쿼리 출력 활성화
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQLDialect
+
+  datasource:
+    url: jdbc:mysql://223.130.128.187:3306/parandb
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://223.130.128.187:8761/eureka
+
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: 223.130.128.187

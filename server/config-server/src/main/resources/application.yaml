@@ -1,0 +1,73 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        encrypt:
+          enabled: false
+        git:
+          uri: git@github.com:paranmanzang/secret-server.git
+          default-label: master
+          ignoreLocalSshSettings: true
+          strictHostKeyChecking: false
+          #          hostKey: # ssh-keyscan ???? ??
+          hostKeyAlgorithm: # ssh-keyscan ???? ??
+          privateKey: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+            b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+            NhAAAAAwEAAQAAAYEAnZ9VD/XNFQhAIz9UxMRbBztvXCF4/3WZYy17JVVKxglOA6XyDgV+
+            L2P6u6v0vlxPQvTu0MOon5TS1xg2FAQgib0IyuIspIxp4yNX5F3SyjzduerJOn1sTgBlGu
+            3SHrGWGxipmJGX42AKfEtJvho1edl77WOi1vK8pFrlHdHr5dfOdT3/JbMM3XivqcphBkSQ
+            5b4Cta9bnHBvKQ3e7UxwVCqDns9GMs8MT9MSORTAE65gTAt76cQt0VzdydqOmcSRfPOHJX
+            cGzdY0m0sCg43qwrw+eZA4IMQz5mWRzJ0gSkvAxlxOIWwkuv85BjcmkbC9TxVAEbu+le2M
+            00hNzsu3dZ4c/sfTvf3tQVTy0QxfKfDqzrjwoM/WR5ZJdFPGsEseiwlC/Bg0j2iAFUZ3ta
+            gVnwtx0v7/909aCFxTZIhS4rcgcB6KOX4UvfvQdP6oTUMEPg3Yir0JGbUZb3YNGi5TIP5I
+            ECKtFfUotmFiVt6AQS5elTwjwrM1tOx96V/vLJRBAAAFiE9pLzNPaS8zAAAAB3NzaC1yc2
+            EAAAGBAJ2fVQ/1zRUIQCM/VMTEWwc7b1wheP91mWMteyVVSsYJTgOl8g4Ffi9j+rur9L5c
+            T0L07tDDqJ+U0tcYNhQEIIm9CMriLKSMaeMjV+Rd0so83bnqyTp9bE4AZRrt0h6xlhsYqZ
+            iRl+NgCnxLSb4aNXnZe+1jotbyvKRa5R3R6+XXznU9/yWzDN14r6nKYQZEkOW+ArWvW5xw
+            bykN3u1McFQqg57PRjLPDE/TEjkUwBOuYEwLe+nELdFc3cnajpnEkXzzhyV3Bs3WNJtLAo
+            ON6sK8PnmQOCDEM+ZlkcydIEpLwMZcTiFsJLr/OQY3JpGwvU8VQBG7vpXtjNNITc7Lt3We
+            HP7H07397UFU8tEMXynw6s648KDP1keWSXRTxrBLHosJQvwYNI9ogBVGd7WoFZ8LcdL+//
+            dPWghcU2SIUuK3IHAeijl+FL370HT+qE1DBD4N2Iq9CRm1GW92DRouUyD+SBAirRX1KLZh
+            YlbegEEuXpU8I8KzNbTsfelf7yyUQQAAAAMBAAEAAAGAArLFzbCRNqJiv7LsbQ01lJ+whr
+            jp30l7xMPN7oJ06N1wQ2Ks2VwM3PvG2nDfIn85ZtdQCDNueiN9wjhY9g0cIsnnyHP1NfCg
+            U1Oi8O1awXY0iQOs3XZkqBRJZs8KS6Orlhi2wyTMUmE6slLf7XqGVRWzXlaRvnQe5UGxl6
+            nrWKHrkY+Y9zcgs23NTj7hNZT8D1TKOAkRsuSsjUnYBpAXDn4z7RNvdRX2jnf51HYtzU1A
+            R7j86An0Posd+GAVLh4Pce8hS/0duqtNXVrHTcYidSyMXk+If0R2BcwK7cZTU5Qg1emoXm
+            Cr4VvK0ymGLJexqyZizphLS4TUGTXF6YWFet2t7l2XIIMUI5w9eAe05iuxojSLwfuVNckE
+            z4lvRx+uk1RvVa9H2OJoH3+viJDkBf//AAYGNK/ACd0ZCoiPYFwE+pGdc3/kuQYNVY8DWI
+            nW5TowbZJm+xTncVIFf7WK9sHcBNFculHbmNmkdpVsq41LjH/XCkvX1/U0UCM//0Z5AAAA
+            wQDLKdfW/tn7q7NWg92JMpUB+z8eaAQNyiB9dIh8kNAZkMCWkKfFQl+8QXEQk6MHs99RzW
+            M5MrozOaStS0OTnsvo5sERv5DSx5HqwKKze0K1QDKRoTXCmbiFD5UKrh0uT3sz/Buw/FzL
+            TZ6cDn6yjWWontR0J+cM+8YyR20mXHnVMXJ2Y0c7dA2YMZlT7YjXRG6tHITsTFix1VacXB
+            3ycFw0w9+objp4v+23y88ab9VncmFE2BX4VBmBRolh+fXsRvsAAADBAN1NNFXD7Z1IHp5z
+            cCOK20tpHNc+TlHNPiy57vUIuLblqsrdyCCrqr+M/zqAdlEUGnXSZ6/WjHGnAd1lb+Dpfs
+            0mMQv4eOsXIRnBFbkL4zxGvLaSG5liApmMhk7kZVFbOahDxJ5Ow+daIZtyODYa4T/z7aQ8
+            Hqnsm34qNo1bwHD25DFaBS5Gi5fry3pd/K/Iypm/fN9mN9rwriyXr+gQ/e1IYnb45JeEUz
+            rFr3DpiT1M/KTUZOXQXOVQWL2MRIRFWQAAAMEAtlYd+8ldVrjlYNN5WsiZcD0HO07e/KZn
+            SFSQDaPdDBZfuHfWGlgsiAWzqNkbUlq2bYZ27nEpz2kLlnZhNSo3nIEG1bfKkAsykF+nwJ
+            MsgpN+Cve0V2zTE6U9JYzblmHl94zuLOhJz6xAEdtzfoTuBqI7cLpfq9PncYnUUWpH57b/
+            K4Q1YhMYm1XYoUMHwOrC2oTv9eDdfZx83v3HqbSJRzbrqtcL36dzUvL1DBO4+/tfPIXPgA
+            +W6CmZpDMm1SEpAAAAEnBhcmFuQHM1YThkMmE5ODFmNw==
+            -----END OPENSSH PRIVATE KEY-----
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show_details: always
+encrypt:
+  key: my-secret
+
+# uri: ????? ?? ? ??
+# default-label: ? ??? ??? ??
+# search-paths: ?? ???? ?? ??
