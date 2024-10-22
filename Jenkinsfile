@@ -15,7 +15,7 @@ pipeline {
                 script {
                     // Git 리포지토리와 서브모듈을 체크아웃
                     checkout([$class: 'GitSCM', branches: [[name: '*/main']], // Ensure this is the correct branch
-                      userRemoteConfigs: [[url: 'https://github.com/MeteoRiver/paran_msa.git', credentialsId: 'git-ssh']],
+                      userRemoteConfigs: [[url: 'https://github.com/MeteoRiver/paran_msa.git', credentialsId: 'paran-git-user']],
                       doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']]])
                 }
             }
