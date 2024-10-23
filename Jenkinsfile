@@ -72,6 +72,23 @@ pipeline {
             }
         }
 
+        stage('Clean Docker Images') {
+            steps {
+                script {
+                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+                    def previousBuildNumber = "${BUILD_NUMBER}".toInteger() - 1  // 이전 빌드 번호 계산
+
+                    for (module in modules) {
+                        // 특정 조건을 평가하여 이미지 제거
+                        def imageTag = "meteoriver/paran:${module}-${previousBuildNumber}"
+                        if (sh(script: "docker images -q ${imageTag}", returnStdout: true).trim()) {
+                            sh "docker rmi ${imageTag}"
+                        }
+                    }
+                }
+            }
+        }
+
         stage('Push to Docker Hub') {
             steps {
                 script {
@@ -88,18 +105,6 @@ pipeline {
                         // 태그와 푸시
                         sh "docker tag meteoriver/${module}:latest ${imageTag}" // 태그를 추가
                         sh "docker push ${imageTag}" // 이미지를 푸시
-                    }
-                }
-            }
-        }
-
-        stage('Clean Docker Images') {
-            steps {
-                script {
-                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
-                    for (module in modules) {
-                        def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"  // 이미지 태그 정의
-                        sh "docker rmi ${imageTag}"  // Docker 이미지 제거
                     }
                 }
             }
