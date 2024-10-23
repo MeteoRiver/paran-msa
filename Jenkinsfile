@@ -10,16 +10,15 @@ pipeline {
 
     stages {
 
-/*         stage('Checkout SCM') {
+        stage('Checkout SCM') {
             steps {
-                script {
-                    // Git 리포지토리와 서브모듈을 체크아웃
-                    checkout([$class: 'GitSCM', branches: [[name: '*//* master']], // Ensure this is the correct branch
-                      userRemoteConfigs: [[url: 'git@github.com:MeteoRiver/paran-msa.git', credentialsId: 'paran-ssh']],
-                      doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']]])
-                }
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: "https://github.com/MeteoRiver/paran-msa.git"]],
+                    extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: true]]
+                ])
             }
-        } */
+        }
 
         stage('Build') {
             steps {
