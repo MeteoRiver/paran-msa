@@ -1,9 +1,11 @@
+version: '3.8'
+
 services:
   eureka:
     build:
       context: ./server/eureka-server
       dockerfile: Dockerfile
-    image: meteoriver/paran:eureka-${BUILD_NUMBER}  # eureka 서비스
+    image: meteoriver/paran:eureka-${BUILD_NUMBER}
     container_name: eureka
     ports:
       - 8761:8761
@@ -15,7 +17,7 @@ services:
     build:
       context: ./server/gateway-server
       dockerfile: Dockerfile
-    image: meteoriver/paran:gateway-${BUILD_NUMBER}  # gateway 서비스
+    image: meteoriver/paran:gateway-${BUILD_NUMBER}
     container_name: gateway
     ports:
       - 8000:8000
@@ -29,7 +31,7 @@ services:
     build:
       context: ./server/config-server
       dockerfile: Dockerfile
-    image: meteoriver/paran:config-${BUILD_NUMBER}  # config 서비스
+    image: meteoriver/paran:config-${BUILD_NUMBER}
     container_name: config
     ports:
       - 8888:8888
@@ -43,7 +45,7 @@ services:
     build:
       context: ./service/chat-service
       dockerfile: Dockerfile
-    image: meteoriver/paran:chat-${BUILD_NUMBER}  # chat 서비스
+    image: meteoriver/paran:chat-${BUILD_NUMBER}
     container_name: chat
     ports:
       - 8081:8081
@@ -57,7 +59,7 @@ services:
     build:
       context: ./service/comment-service
       dockerfile: Dockerfile
-    image: meteoriver/paran:comment-${BUILD_NUMBER}  # comment 서비스
+    image: meteoriver/paran:comment-${BUILD_NUMBER}
     container_name: comment
     ports:
       - 8084:8084
@@ -71,7 +73,7 @@ services:
     build:
       context: ./service/file-service
       dockerfile: Dockerfile
-    image: meteoriver/paran:file-${BUILD_NUMBER}  # file 서비스
+    image: meteoriver/paran:file-${BUILD_NUMBER}
     container_name: file
     ports:
       - 8090:8090
@@ -85,7 +87,7 @@ services:
     build:
       context: ./service/group-service
       dockerfile: Dockerfile
-    image: meteoriver/paran:group-${BUILD_NUMBER}  # group 서비스
+    image: meteoriver/paran:group-${BUILD_NUMBER}
     container_name: group
     ports:
       - 8085:8085
@@ -99,7 +101,7 @@ services:
     build:
       context: ./service/room-service
       dockerfile: Dockerfile
-    image: meteoriver/paran:room-${BUILD_NUMBER}  # room 서비스
+    image: meteoriver/paran:room-${BUILD_NUMBER}
     container_name: room
     ports:
       - 8083:8083
@@ -113,7 +115,7 @@ services:
     build:
       context: ./service/user-service
       dockerfile: Dockerfile
-    image: meteoriver/paran:user-${BUILD_NUMBER}  # user 서비스
+    image: meteoriver/paran:user-${BUILD_NUMBER}
     container_name: user
     ports:
       - 8082:8082
