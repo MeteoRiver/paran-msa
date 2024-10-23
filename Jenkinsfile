@@ -95,16 +95,18 @@ pipeline {
                     def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
 
                     for (module in modules) {
-                        def imageTag = "meteoriver/${module}:${env.BUILD_ID}"
+                        def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"
+                        def sourceImageTag = "meteoriver/paran:${module}-${env.BUILD_NUMBER}"
 
-                        sh 'pwd'  // 현재 작업 디렉토리 확인
-                        sh 'ls -al'  // 파일 목록 확인
-                        // 현재 빌드된 이미지 확인
                         sh "docker images"
 
-                        // 태그와 푸시
-                        sh "docker tag meteoriver/${module}:latest ${imageTag}" // 태그를 추가
-                        sh "docker push ${imageTag}" // 이미지를 푸시
+                        if (sh(script: "docker images -q ${sourceImageTag}", returnStdout: true).trim()) {
+                            echo "Tagging and pushing ${imageTag}"  // 디버그 메시지
+                            sh "docker tag ${sourceImageTag} ${imageTag}"  // 이미지 태그
+                            sh "docker push ${imageTag}"  // Docker Hub에 푸시
+                        } else {
+                            echo "Image ${sourceImageTag} not found. Skipping ${module}."
+                        }
                     }
                 }
             }
