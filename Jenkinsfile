@@ -119,7 +119,7 @@ pipeline {
 
                         // 리소스 배포
                         try {
-                            sh 'kubectl apply -f ./nks-deploy.yaml'
+                            sh 'sed "s/\${BUILD_NUMBER}/${BUILD_NUMBER}/g" ./nks-deploy.yaml | kubectl apply -f -'
                             // 배포 후 Pods 상태 확인
                             sh 'kubectl get pods -n default'
                         } catch (Exception e) {
