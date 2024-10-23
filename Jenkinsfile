@@ -14,7 +14,7 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: "https://github.com/MeteoRiver/paran-msa.git"]],
+                    userRemoteConfigs: [[url: "https://github.com/MeteoRiver/paran-msa.git", credentialsId:"paran-git"]],
                     extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: true]]
                 ])
             }
