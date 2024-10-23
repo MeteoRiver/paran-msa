@@ -1,6 +1,6 @@
 [submodule "server/secret-server"]
 	path = server/secret-server
-	url = git@github.com:MeteoRiver/secret-server.git
+	url = https://github.com/MeteoRiver/secret-server
 [submodule "server/config-server"]
 	path = server/config-server
-	url = git@github.com:MeteoRiver/config-server.git
+	url = https://github.com/MeteoRiver/config-server
