@@ -100,13 +100,10 @@ pipeline {
 
                         sh "docker images"
 
-                        if (sh(script: "docker images -q ${sourceImageTag}", returnStdout: true).trim()) {
-                            echo "Tagging and pushing ${imageTag}"  // 디버그 메시지
-                            sh "docker tag ${sourceImageTag} ${imageTag}"  // 이미지 태그
-                            sh "docker push ${imageTag}"  // Docker Hub에 푸시
-                        } else {
-                            echo "Image ${sourceImageTag} not found. Skipping ${module}."
-                        }
+                        echo "Tagging and pushing ${imageTag}"  // 디버그 메시지
+                        sh "docker tag ${sourceImageTag} ${imageTag}"  // 이미지 태그
+                        sh "docker push ${imageTag}"  // Docker Hub에 푸시
+
                     }
                 }
             }
