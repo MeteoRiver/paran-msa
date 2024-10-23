@@ -1,0 +1,10 @@
+# role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default  # jenkins가 동작할 네임스페이스와 동일해야 함
+  name: jenkins-deployer
+rules:
+  - apiGroups: [""] # ""는 코어 API 그룹을 의미 (예: Pods, Services 등)
+    resources: ["pods", "services", "deployments"] # 권한을 부여할 리소스들
+    verbs: ["get", "list", "create", "update", "delete"] # 사용할 수 있는 동작

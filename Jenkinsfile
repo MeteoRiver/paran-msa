@@ -105,7 +105,7 @@ pipeline {
                         if (sh(script: "docker images -q ${imageTag}", returnStdout: true).trim()) {
                             sh "docker rmi ${imageTag}"
                         }
-                        sh "curl -X DELETE -u '${DOCKERHUB_CREDENTIALS_USR}:${DOCKERHUB_CREDENTIALS_PSW}' https://hub.docker.com/v2/repositories/meteoriver/paran/tags/${module}-${previousBuildNumber}/"
+                        //sh "curl -X DELETE -u '${DOCKERHUB_CREDENTIALS_USR}:${DOCKERHUB_CREDENTIALS_PSW}' https://hub.docker.com/v2/repositories/meteoriver/paran/tags/${module}-${previousBuildNumber}/"
                     }
                 }
             }
