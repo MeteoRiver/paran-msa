@@ -110,15 +110,27 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
+        stage('Deploy') {
             steps {
                 script {
-                    sh 'kubectl apply -f ./nks-deploy.yaml'
+                    withEnv(["KUBECONFIG=/var/lib/jenkins/kubeconfig.yaml"]) {
+                        // Secrets 확인
+                        sh 'kubectl -n default get secrets'
+
+                        // 리소스 배포
+                        try {
+                            sh 'kubectl apply -f ./nks-deploy.yaml'
+                            // 배포 후 Pods 상태 확인
+                            sh 'kubectl get pods -n default'
+                        } catch (Exception e) {
+                            echo "Deployment failed: ${e.getMessage()}"
+                            currentBuild.result = 'FAILURE'
+                            error("Aborting the build due to deployment failure.")
+                        }
+                    }
                 }
             }
         }
-    }
-
     post {
         success {
             echo 'Deployment successful!'
