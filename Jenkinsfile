@@ -17,6 +17,7 @@ pipeline {
                     userRemoteConfigs: [[url: "https://github.com/MeteoRiver/paran-msa.git", credentialsId:"paran-git"]],
                     extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: true, parentCredentials: true]]
                 ])
+                sh 'git submodule update --init --recursive'
             }
         }
 
