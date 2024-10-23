@@ -108,15 +108,26 @@ pipeline {
                 }
             }
         }
+        stage('Delete Old DockerHub Images') {
+            steps {
+                script {
+                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+                    def previousBuildNumber = "${BUILD_NUMBER}".toInteger() - 1  // 이전 빌드 번호 계산
 
+                    for (module in modules) {
+                        def imageTag = "meteoriver/paran:${module}-${previousBuildNumber}"  // 이전 빌드 번호
+                        echo "Attempting to delete image ${imageTag}"
+
+                        sh "docker rmi ${imageTag}"  // 이미지 삭제
+
+                    }
+                }
+            }
+        }
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
-                    for (module in modules) {
-                        def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"  // 이미지 태그 정의
-                        sh "kubectl set image deployment/${module} ${module}=${imageTag}"  // Kubernetes에 이미지 배포
-                    }
+                    sh 'kubectl apply -f ./nks-deploy.yaml'
                 }
             }
         }
