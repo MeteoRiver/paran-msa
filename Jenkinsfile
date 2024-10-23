@@ -9,7 +9,13 @@ pipeline {
     }
 
     stages {
-
+        stage('Clean Workspace') {
+            steps {
+                script {
+                    sh 'rm -rf server/config-server'
+                }
+            }
+        }
         stage('Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
