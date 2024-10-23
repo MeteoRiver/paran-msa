@@ -72,22 +72,7 @@ pipeline {
             }
         }
 
-        stage('Clean Docker Images') {
-            steps {
-                script {
-                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
-                    def previousBuildNumber = "${BUILD_NUMBER}".toInteger() - 1  // 이전 빌드 번호 계산
 
-                    for (module in modules) {
-                        // 특정 조건을 평가하여 이미지 제거
-                        def imageTag = "meteoriver/paran:${module}-${previousBuildNumber}"
-                        if (sh(script: "docker images -q ${imageTag}", returnStdout: true).trim()) {
-                            sh "docker rmi ${imageTag}"
-                        }
-                    }
-                }
-            }
-        }
 
         stage('Push to Docker Hub') {
             steps {
@@ -108,17 +93,19 @@ pipeline {
                 }
             }
         }
-        stage('Delete Old DockerHub Images') {
+        stage('Clean Docker Images') {
             steps {
                 script {
                     def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
                     def previousBuildNumber = "${BUILD_NUMBER}".toInteger() - 1  // 이전 빌드 번호 계산
 
                     for (module in modules) {
-                        def imageTag = "meteoriver/paran:${module}-${previousBuildNumber}"  // 이전 빌드 번호
-                        echo "Attempting to delete image ${imageTag}"
-
-                        sh "docker rmi ${imageTag}"  // 이미지 삭제
+                        // 특정 조건을 평가하여 이미지 제거
+                        def imageTag = "meteoriver/paran:${module}-${previousBuildNumber}"
+                        if (sh(script: "docker images -q ${imageTag}", returnStdout: true).trim()) {
+                            sh "docker rmi ${imageTag}"
+                        }
+                         sh "curl -X DELETE -u '${DOCKERHUB_CREDENTIALS_USR}:${DOCKERHUB_CREDENTIALS_PSW}' https://hub.docker.com/v2/repositories/meteoriver/paran/tags/${module}-${previousBuildNumber}/"
 
                     }
                 }
