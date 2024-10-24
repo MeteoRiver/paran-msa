@@ -3,12 +3,6 @@ spring:
     name: group-service
   profiles:
     active: prod
-  config:
-    import: configserver:http://223.130.156.167:8888
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka:8761/eureka
-    register-with-eureka: true
-    fetch-registry: true
+  cloud:
+    config:
+      uri: http://config:8888
