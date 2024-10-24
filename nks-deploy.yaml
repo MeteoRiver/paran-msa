@@ -24,7 +24,7 @@ kind: Service
 metadata:
   name: eureka
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8761
       targetPort: 8761
@@ -53,14 +53,14 @@ spec:
             - containerPort: 8000
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka:8761/eureka"
+              value: "http://eureka.default.svc.cluster.local:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: gateway
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8000
       targetPort: 8000
@@ -89,14 +89,14 @@ spec:
             - containerPort: 8888
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka:8761/eureka"
+              value: "http://eureka.default.svc.cluster.local:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: config
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8888
       targetPort: 8888
@@ -305,14 +305,14 @@ spec:
             - containerPort: 8082
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka:8761/eureka"
+              value: "http://eureka.default.svc.cluster.local:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: user
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8082
       targetPort: 8082
