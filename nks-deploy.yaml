@@ -51,7 +51,9 @@ spec:
           image: meteoriver/paran:gateway-${BUILD_NUMBER}
           ports:
             - containerPort: 8000
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -85,7 +87,9 @@ spec:
           image: meteoriver/paran:config-${BUILD_NUMBER}
           ports:
             - containerPort: 8888
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -119,7 +123,9 @@ spec:
           image: meteoriver/paran:chat-${BUILD_NUMBER}
           ports:
             - containerPort: 8081
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -153,7 +159,9 @@ spec:
           image: meteoriver/paran:comment-${BUILD_NUMBER}
           ports:
             - containerPort: 8084
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -187,7 +195,9 @@ spec:
           image: meteoriver/paran:file-${BUILD_NUMBER}
           ports:
             - containerPort: 8090
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -221,7 +231,9 @@ spec:
           image: meteoriver/paran:group-${BUILD_NUMBER}
           ports:
             - containerPort: 8085
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -255,7 +267,9 @@ spec:
           image: meteoriver/paran:room-${BUILD_NUMBER}
           ports:
             - containerPort: 8083
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
@@ -289,7 +303,9 @@ spec:
           image: meteoriver/paran:user-${BUILD_NUMBER}
           ports:
             - containerPort: 8082
-
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka:8761/eureka"
 ---
 apiVersion: v1
 kind: Service
