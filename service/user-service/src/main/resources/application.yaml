@@ -3,5 +3,6 @@ spring:
     name: user-service
   profiles:
     active: prod
-  config:
-    import: configserver:http://config:8888
+  cloud:
+    config:
+      uri: http://config:8888
