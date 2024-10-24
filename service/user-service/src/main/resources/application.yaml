@@ -1,7 +1,7 @@
 spring:
   application:
-    name: room-service
+    name: user-service
   profiles:
     active: prod
   config:
-    import: configserver:http://223.130.156.167:8888
+    import: optional:configserver:http://223.130.156.167:8888
