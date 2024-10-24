@@ -3,6 +3,5 @@ spring:
     name: comment-service
   profiles:
     active: prod
-  cloud:
-    config:
-      uri: http://config:8888
+  config:
+    import: optional:configserver:http://223.130.156.167:8888
