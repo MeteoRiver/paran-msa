@@ -20,7 +20,7 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: "git@github.com:MeteoRiver/paran-msa.git", credentialsId:"paran-git"]],
+                    userRemoteConfigs: [[url: "git@github.com:MeteoRiver/paran-msa.git", credentialsId: "paran-git"]],
                     extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: true, parentCredentials: true]]
                 ])
                 sh 'git submodule update --init --recursive'
@@ -37,8 +37,7 @@ pipeline {
                     set -e
                     export JAVA_HOME="$JAVA_HOME"
 
-                    all_modules=("server:gateway-server" "server:config-server" "server:eureka-server"
-                                 "service:user-service" "service:group-service" "service:chat-service"
+                    all_modules=("service:user-service" "service:group-service" "service:chat-service"
                                  "service:file-service" "service:room-service" "service:comment-service")
 
                     echo "Cleaning..."
@@ -60,9 +59,9 @@ pipeline {
                 sh 'ls -al'  // 파일 목록 확인
                 sh 'echo "BUILD_NUMBER=${BUILD_NUMBER}"'
 
+                // Docker Compose로 서비스 이미지 빌드
                 sh 'docker-compose up -d --build'
                 sh 'docker images' // 현재 빌드된 이미지 확인
-
             }
         }
 
@@ -72,31 +71,26 @@ pipeline {
             }
         }
 
-
-
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+                    def modules = ["user", "group", "chat", "file", "room", "comment"]
 
                     for (module in modules) {
                         def imageTag = "meteoriver/paran:${module}-${env.BUILD_ID}"
-                        def sourceImageTag = "meteoriver/paran:${module}-${env.BUILD_NUMBER}"
 
-                        sh "docker images"
-
-                        echo "Tagging and pushing ${imageTag}"  // 디버그 메시지
-                        sh "docker tag ${sourceImageTag} ${imageTag}"  // 이미지 태그
+                        // Docker 이미지 태그 및 푸시
+                        sh "docker tag ${repository}:${module}-${env.BUILD_NUMBER} ${imageTag}"
                         sh "docker push ${imageTag}"  // Docker Hub에 푸시
-
                     }
                 }
             }
         }
+
         stage('Clean Docker Images') {
             steps {
                 script {
-                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+                    def modules = ["user", "group", "chat", "file", "room", "comment"]
                     def previousBuildNumber = "${BUILD_NUMBER}".toInteger() - 1  // 이전 빌드 번호 계산
 
                     for (module in modules) {
@@ -105,11 +99,13 @@ pipeline {
                         if (sh(script: "docker images -q ${imageTag}", returnStdout: true).trim()) {
                             sh "docker rmi ${imageTag}"
                         }
-                        sh "curl -X DELETE -u '${DOCKERHUB_CREDENTIALS_USR}:${DOCKERHUB_CREDENTIALS_PSW}' https://hub.docker.com/v2/repositories/meteoriver/paran/tags/${module}-${previousBuildNumber}/"
+                        // Docker Hub에서 이전 태그 삭제
+                        sh "curl -X DELETE -u '${DOCKERHUB_CREDENTIALS_USR}:${DOCKERHUB_CREDENTIALS_PSW}' https://hub.docker.com/v2/repositories/${repository}/tags/${module}-${previousBuildNumber}/"
                     }
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
@@ -133,6 +129,7 @@ pipeline {
             }
         }
     }
+
     post {
         success {
             echo 'Deployment successful!'
