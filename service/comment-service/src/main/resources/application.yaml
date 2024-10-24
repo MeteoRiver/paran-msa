@@ -5,3 +5,10 @@ spring:
     active: prod
   config:
     import: optional:configserver:http://223.130.156.167:8888
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
