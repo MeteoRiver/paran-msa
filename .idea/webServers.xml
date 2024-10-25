@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="829d8c32-e365-4441-9e23-58d1869ff2db" name="kube">
+        <fileTransfer accessType="SFTP" host="175.45.202.58" port="22" sshConfigId="16faef44-d831-4e57-9eeb-2d62dc27baed" sshConfig="root@175.45.202.58:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
