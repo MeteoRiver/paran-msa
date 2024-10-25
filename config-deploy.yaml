@@ -18,11 +18,11 @@ spec:
           image: meteoriver/paran:config-${BUILD_NUMBER}
           ports:
             - containerPort: 8888
-          env:
-            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka.default.svc.cluster.local:8761/eureka"
-            - name: SPRING_PROFILES_ACTIVE
-              value: prod
+#          env:
+#            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+#              value: "http://eureka.default.svc.cluster.local:8761/eureka"
+#            - name: SPRING_PROFILES_ACTIVE
+#              value: prod
 ---
 apiVersion: v1
 kind: Service
