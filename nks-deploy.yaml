@@ -21,7 +21,7 @@ spec:
             - name: EUREKA_SERVER_URL
               value: http://localhost:8761/eureka/
             - name: SPRING_PROFILES_ACTIVE
-              value: kubernetes
+              value: prod
 
 ---
 apiVersion: v1
@@ -62,7 +62,7 @@ spec:
             - name : CONFIG_SERVER_URL
               value: "http://config.default.svc.cluster.local:8761/eureka"
             - name: SPRING_PROFILES_ACTIVE
-              value: kubernetes
+              value: prod
 ---
 apiVersion: v1
 kind: Service
@@ -100,7 +100,7 @@ spec:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka.default.svc.cluster.local:8761/eureka"
             - name: SPRING_PROFILES_ACTIVE
-              value: kubernetes
+              value: prod
 ---
 apiVersion: v1
 kind: Service
@@ -284,7 +284,7 @@ spec:
             - name: CONFIG_SERVER_URL
               value: "http://config:8761/eureka"
             - name: SPRING_PROFILES_ACTIVE
-              value: kubernetes
+              value: prod
 ---
 apiVersion: v1
 kind: Service
@@ -324,7 +324,7 @@ spec:
             - name : CONFIG_SERVER_URL
               value: "http://config.default.svc.cluster.local:8761/eureka"
             - name: SPRING_PROFILES_ACTIVE
-              value: kubernetes
+              value: prod
 ---
 apiVersion: v1
 kind: Service
