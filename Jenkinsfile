@@ -120,7 +120,7 @@ pipeline {
                         // 리소스 배포
                         try {
                             // ${BUILD_NUMBER}를 실제 값으로 변경
-                            sh "sed 's/\\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./config-deploy.yaml | kubectl apply -f -"
+                            sh "sed 's/\\\\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./config-deploy.yaml | kubectl apply -f -"
                             sh "sed 's/\\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./nks-deploy.yaml | kubectl apply -f -"
                             // 배포 후 Pods 상태 확인
                             sh 'kubectl get pods -n default'
