@@ -3,5 +3,8 @@ spring:
     name: user-service
   profiles:
     active: prod
-  config:
-    import: configserver:http://config.default.svc.cluster.local:8888
+  cloud:
+    config:
+      uri: http://config.default.svc.cluster.local:8888
+      name: user-service
+      profile: prod
