@@ -17,6 +17,11 @@ spec:
           image: meteoriver/paran:eureka-${BUILD_NUMBER}
           ports:
             - containerPort: 8761
+          env:
+            - name: EUREKA_SERVER_URL
+              value: http://localhost:8761/eureka/
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes
 
 ---
 apiVersion: v1
@@ -54,6 +59,10 @@ spec:
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka.default.svc.cluster.local:8761/eureka"
+            - name : CONFIG_SERVER_URL
+              value: "http://config.default.svc.cluster.local:8761/eureka"
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes
 ---
 apiVersion: v1
 kind: Service
@@ -90,6 +99,8 @@ spec:
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka.default.svc.cluster.local:8761/eureka"
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes
 ---
 apiVersion: v1
 kind: Service
@@ -270,13 +281,17 @@ spec:
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka:8761/eureka"
+            - name: CONFIG_SERVER_URL
+              value: "http://config:8761/eureka"
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: room
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8083
       targetPort: 8083
@@ -306,6 +321,10 @@ spec:
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka.default.svc.cluster.local:8761/eureka"
+            - name : CONFIG_SERVER_URL
+              value: "http://config.default.svc.cluster.local:8761/eureka"
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes
 ---
 apiVersion: v1
 kind: Service
