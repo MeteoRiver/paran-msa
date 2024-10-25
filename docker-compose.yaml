@@ -22,6 +22,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: gateway
 
@@ -50,6 +51,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: chat
 
@@ -64,6 +66,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: comment
 
@@ -78,6 +81,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: file
 
@@ -92,6 +96,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: group
 
@@ -106,6 +111,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: room
 
@@ -120,6 +126,7 @@ services:
     networks:
       - paran-net
     depends_on:
+      - config
       - eureka
     hostname: user
 
