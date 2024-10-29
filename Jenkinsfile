@@ -120,8 +120,10 @@ pipeline {
                         // 리소스 배포
                         try {
                             // ${BUILD_NUMBER}를 실제 값으로 변경
-                            sh "sed 's/\\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./config-deploy.yaml | kubectl apply -f -"
-                            // 배포 후 Pods 상태 확인
+                           def deployConfig = sh(script: "sed 's/\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./config-deploy.yaml", returnStdout: true).trim()
+                            echo "Deploying with the following config: \n${deployConfig}"
+                            sh "echo '${deployConfig}' | kubectl apply -f -"
+
                             sh 'kubectl get pods -n default'
                         } catch (Exception e) {
                             echo "Deployment failed: ${e.getMessage()}"
