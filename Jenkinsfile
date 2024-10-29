@@ -117,19 +117,24 @@ pipeline {
                         // Secrets 확인
                         sh 'kubectl -n default get secrets'
 
-                        // 리소스 배포
                         try {
-                            // ${BUILD_NUMBER}를 실제 값으로 변경
-                           def deployConfig = sh(script: "sed 's/\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./config-deploy.yaml", returnStdout: true).trim()
-                            echo "Deploying with the following config: \n${deployConfig}"
-                            sh "echo '${deployConfig}' | kubectl apply -f -"
+                           // ${BUILD_NUMBER}를 실제 값으로 변경
+                           def deployConfig = sh(script: "sed 's/\\\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./config-deploy.yaml", returnStdout: true).trim()
+                           echo "Deploying config-deploy.yaml with the following config: \n${deployConfig}"
+                           sh "echo '${deployConfig}' | kubectl apply -f -"
 
-                            sh 'kubectl get pods -n default'
-                        } catch (Exception e) {
-                            echo "Deployment failed: ${e.getMessage()}"
-                            currentBuild.result = 'FAILURE'
-                            error("Aborting the build due to deployment failure.")
-                        }
+                           // nks-deploy.yaml 배포
+                           def nksDeployConfig = sh(script: "sed 's/\\\${BUILD_NUMBER}/${BUILD_NUMBER}/g' ./nks-deploy.yaml", returnStdout: true).trim()
+                           echo "Deploying nks-deploy.yaml with the following config: \n${nksDeployConfig}"
+                           sh "echo '${nksDeployConfig}' | kubectl apply -f -"
+
+                           // 배포 후 Pods 상태 확인
+                           sh 'kubectl get pods -n default'
+                       } catch (Exception e) {
+                           echo "Deployment failed: ${e.getMessage()}"
+                           currentBuild.result = 'FAILURE'
+                           error("Aborting the build due to deployment failure.")
+                       }
                     }
                 }
             }
