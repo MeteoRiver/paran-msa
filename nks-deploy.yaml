@@ -19,7 +19,7 @@ spec:
             - containerPort: 8761
           env:
             - name: EUREKA_SERVER_URL
-              value: http://localhost:8761/eureka/
+              value: http://eureka:8761/eureka/
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 
@@ -58,9 +58,9 @@ spec:
             - containerPort: 8000
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka.default.svc.cluster.local:8761/eureka"
+              value: "http://eureka:8761/eureka"
             - name : CONFIG_SERVER_URL
-              value: "http://config.default.svc.cluster.local:8761/eureka"
+              value: "http://config:8888/gateway-server"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 ---
@@ -244,7 +244,7 @@ spec:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka:8761/eureka"
             - name: CONFIG_SERVER_URL
-              value: "http://config:8761/eureka"
+              value: "http://config:8888/room"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 ---
@@ -282,9 +282,9 @@ spec:
             - containerPort: 8082
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka.default.svc.cluster.local:8761/eureka"
-            - name : CONFIG_SERVER_URL
-              value: "http://config.default.svc.cluster.local:8761/eureka"
+              value: "http://eureka:8761/eureka"
+            - name: CONFIG_SERVER_URL
+              value: "http://config:8888/user"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 ---
