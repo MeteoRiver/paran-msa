@@ -60,7 +60,7 @@ spec:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka:8761/eureka"
             - name : CONFIG_SERVER_URL
-              value: "http://config:8888/gateway-server"
+              value: "http://config:8888"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 ---
@@ -244,7 +244,7 @@ spec:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka:8761/eureka"
             - name: CONFIG_SERVER_URL
-              value: "http://config:8888/room"
+              value: "http://config:8888"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 ---
@@ -282,9 +282,9 @@ spec:
             - containerPort: 8082
           env:
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: "http://eureka:8761/eureka"
+              value: "http://eureka:8761"
             - name: CONFIG_SERVER_URL
-              value: "http://config:8888/user"
+              value: "http://config:8888"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
 ---
