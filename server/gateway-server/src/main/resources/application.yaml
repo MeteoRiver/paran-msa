@@ -4,7 +4,7 @@ spring:
   profiles:
     active: prod
   config:
-    import: config:http://config:8888
+    import: http://config:8888
   cloud:
     config:
       fail-fast: true
