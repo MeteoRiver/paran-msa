@@ -5,3 +5,35 @@ spring:
     active: prod
   config:
     import: config:http://config:8888
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        max-attempts: 6
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+    kubernetes:
+      discovery:
+        enabled: true
+      config:
+        enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/
+  instance:
+    appname: GATEWAY-SERVER
+    preferIpAddress: true
+
+logging:
+  level:
+    com.netflix.discovery: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.cloud.config: DEBUG
+    org.springframework.cloud.config.server: DEBUG
+    org.springframework.boot.context.logging: DEBUG

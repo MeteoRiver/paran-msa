@@ -10,6 +10,22 @@ services:
     networks:
       - paran-net
     hostname: eureka
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  config:
+    build:
+      context: ./server/config-server
+      dockerfile: Dockerfile
+    image: meteoriver/paran:config-${BUILD_NUMBER}
+    container_name: config
+    ports:
+      - 8888:8888
+    networks:
+      - paran-net
+    hostname: config
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   gateway:
     build:
@@ -22,23 +38,11 @@ services:
     networks:
       - paran-net
     depends_on:
+      - eureka
       - config
-      - eureka
     hostname: gateway
-
-  config:
-    build:
-      context: ./server/config-server
-      dockerfile: Dockerfile
-    image: meteoriver/paran:config-${BUILD_NUMBER}
-    container_name: config
-    ports:
-      - 8888:8888
-    networks:
-      - paran-net
-    depends_on:
-      - eureka
-    hostname: config
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   chat:
     build:
@@ -54,6 +58,8 @@ services:
       - config
       - eureka
     hostname: chat
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   comment:
     build:
@@ -69,6 +75,8 @@ services:
       - config
       - eureka
     hostname: comment
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   file:
     build:
@@ -84,6 +92,8 @@ services:
       - config
       - eureka
     hostname: file
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   group:
     build:
@@ -99,6 +109,8 @@ services:
       - config
       - eureka
     hostname: group
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   room:
     build:
@@ -114,6 +126,8 @@ services:
       - config
       - eureka
     hostname: room
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   user:
     build:
@@ -126,9 +140,11 @@ services:
     networks:
       - paran-net
     depends_on:
-      - config
       - eureka
+      - config
     hostname: user
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
 networks:
   paran-net:
