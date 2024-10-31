@@ -57,12 +57,13 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
               value: "http://eureka:8761/eureka"
             - name : CONFIG_SERVER_URL
               value: "http://config:8888"
-            - name: SPRING_PROFILES_ACTIVE
-              value: prod
+
 ---
 apiVersion: v1
 kind: Service
