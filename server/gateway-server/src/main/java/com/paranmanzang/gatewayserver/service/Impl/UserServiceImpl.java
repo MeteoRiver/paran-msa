@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
                 .flatMap(user -> {
                     user.setDeclarationCount(user.getDeclarationCount()+1);
                     if(user.getDeclarationCount()==5){
-                        remove(nickname);
+                        return remove(nickname);
                     }
                     return userRepository.save(user).then(Mono.just(true));
                 })
